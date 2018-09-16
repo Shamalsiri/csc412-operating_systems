@@ -1,7 +1,6 @@
 #!/bin/bash
 args=("$@")
 elements=${#args[@]}
-echo $elements
 
 if [ $elements -eq 0 ]; then
   echo Invalid argument list.
@@ -21,4 +20,3 @@ else
 fi
 
 
-arguments - parameters
