@@ -12,8 +12,7 @@ elif [ $elements -eq 1 ]; then # If the argument is only the path to executable,
   echo $err1 # prints error message
   echo $err2
 else # If the arguments include the path executable (exe) and list of ints
-  path="./" # set ./
-  path=$path${args[${1}]} #Path to exe
+  path=$1
   for ((i=1;i<$elements;i++)) # for lookp that Call the exe with indiviual ints
   do
     $path ${args[${i}]}
