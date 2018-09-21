@@ -1,6 +1,6 @@
 # Programing Assignment 1 #
 
-*** Attention: *** The following document is a summation (and excerpts) of the Assignment 1 hand out provided by Professor Herve
+***Attention:*** The following document is a summation (and excerpts) of the Assignment 1 hand out provided by Professor Herve
 
 ## Objectives ##
 - Setup the environment that you are going to use for all assignments this semester;
@@ -96,7 +96,7 @@ On the other hand, if any the script was launched with an invalid argument list,
 *Invalid argument list.  
 Proper usage: myScript <path to executable> m1 [m2 [m3 [...]]]*
 
-## Organization##
+## Organization ##
 
 All the screenshots, named as specified earlier, should go into a folder/directory named Screenshots, while the C program and the script should go into a folder named Code. These two folders and the history.txt file should be placed into a folder named Assignment 01. Compress this folder into a zip archive and upload the archive to your submit folder before the submission deadline.
 
