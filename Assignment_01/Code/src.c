@@ -15,10 +15,11 @@ int main(int argc, char *argv[])
 {
   int param1;
   int param2;
+  char *a
 
   if (argc == 1) // If no arguments, prints error message
   {
-    printf("Proper usage: prog m [n]\n");
+    printf("Proper usage: %s m [n]\n",argv[0]);
   }
   else if (argc == 2) //If there is 1 argument
   {
@@ -78,7 +79,7 @@ int main(int argc, char *argv[])
       printf("%d.\n", gcdenominator);
     }
   }
-  else // If there is more than 2 arguments, prints error message 
+  else // If there is more than 2 arguments, prints error message
   {
     printf("Proper usage: prog m [n]\n");
   }
