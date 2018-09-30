@@ -1,6 +1,6 @@
 # Programing Assignment 1 #
 
-*** Attention: *** The following document is a summation (and excerpts) of the Assignment 1 hand out provided by Professor Herve
+***Attention:*** The following document is a summation (and excerpts) of the Assignment 1 hand out provided by Professor Herve
 
 ## Objectives ##
 - Setup the environment that you are going to use for all assignments this semester;
@@ -54,14 +54,14 @@ Then your program should produce the following output:
 
 #### 2.2 Data validation and error reports ####
 
-You should check the argument(s) of your program and report an eventual error using one of the following messages (again assuming that you built an executable named `prog`): *  
+You should check the argument(s) of your program and report an eventual error using one of the following messages (again assuming that you built an executable named `prog`):  
  * prog launched with no argument.  
    Proper usage: prog m [n]     
  * prog launched with too many arguments.  
    Proper usage: prog m [n]  
  * prog’s argument is not a strictly positive integer.  
  * prog’s first argument is not a strictly positive integer.  
- * prog’s second argument is not a strictly positive integer.*  
+ * prog’s second argument is not a strictly positive integer.  
 
 Needless to say, the name of the executable should not be hard-coded in your C program.  
 
@@ -96,8 +96,8 @@ On the other hand, if any the script was launched with an invalid argument list,
 *Invalid argument list.  
 Proper usage: myScript <path to executable> m1 [m2 [m3 [...]]]*
 
-## Organization##
+## Organization ##
 
 All the screenshots, named as specified earlier, should go into a folder/directory named Screenshots, while the C program and the script should go into a folder named Code. These two folders and the history.txt file should be placed into a folder named Assignment 01. Compress this folder into a zip archive and upload the archive to your submit folder before the submission deadline.
 
-*** Reminder: *** Use of any solutions found in this repository for academic assignments/purposes will be considered **Plagiarism.**
+***Reminder:*** Use of any solutions found in this repository for academic assignments/purposes will be considered **Plagiarism.**
