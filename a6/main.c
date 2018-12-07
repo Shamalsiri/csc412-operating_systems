@@ -202,23 +202,23 @@ void initializeApplication(char* fileName)
   fp = fopen(fileName, "r");
 
 
-  fscanf(fp, "%f %f", &width, &height);
+  fscanf(fp, "%f %f\n", &width, &height);
 	gWindowWidth = width;
 	gWindowHeight = height;
 
-  fscanf(fp, "%f %f", &x, &y);
+  fscanf(fp, "%f %f\n", &x, &y);
 	startX = x;
 	startY = y;
 
-  fscanf(fp, "%f", &length);
+  fscanf(fp, "%f\n", &length);
 
-  fscanf(fp, "%f", &angle);
+  fscanf(fp, "%f\n", &angle);
 	angleUnit = angle;
 
 	getline(&line, &len, fp);
 	curveList = string2list(line, length, 1);
 
-	fscanf(fp,"%d", &numRules);
+	fscanf(fp,"%d\n", &numRules);
 	printf("%d\n",numRules);
 	//Can't read this line for some reason
   //sscanf(line, "%s %s %f", searchPattern, replacementPattern, &scale);
@@ -228,7 +228,7 @@ void initializeApplication(char* fileName)
 	for(int i = 0; i < numRules; i++)
 	{
 		getline(&line, &len, fp);
-		sDataArr[i] = malloc(sizeof(struct searchData*));
+		sDataArr[i] = (struct searchData*) malloc(sizeof(struct searchData*));
 		sDataArr[i]->searchPattern = (char*) malloc(sizeof(char)*len);;
 		sDataArr[i]->replacementPattern = (char*) malloc(sizeof(char)*len);
 		sscanf(line,"%s %s %f",sDataArr[i]->searchPattern, sDataArr[i]->replacementPattern, &scale);
@@ -417,7 +417,7 @@ void* search(void* sData)
 			//Call replacement via createthreads with start and end.
 			// printf("%s\n", listPattern);
 			// printf("Pattern Matches\n");
-			struct replacementRules* replacementR = (struct replacementRules*) malloc(sizeof(struct replacementRules*));
+			struct replacementRules* replacementR = (struct replacementRules*) malloc(sizeof(struct replacementRules));
 			replacementR->replacementList = string2list(replacementPattern, start->length, scale);
 			replacementR->start = start;
 			replacementR->end = end;
@@ -425,7 +425,7 @@ void* search(void* sData)
 			pthread_attr_t attributes;
 			pthread_attr_init(&attributes);
 
-			pthread_create(&id, &attributes, replacement, NULL);
+			pthread_create(&id, &attributes, replacement, replacementR);
 			pthread_detach(id);
 
 		}
