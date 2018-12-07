@@ -192,10 +192,10 @@ void initializeApplication(char* fileName)
 	int width, height, x, y, length;
   float angle;
 	float scale;
-  char* pattern;
+  char* pattern = malloc(sizeof(char*));
   char* rule;
-  char searchPattern[1024] = "";
-  char replacementPattern[1024] ="";
+  char* searchPattern;
+  char* replacementPattern;
 
   char* line = NULL;
   size_t len = 0;
@@ -204,36 +204,43 @@ void initializeApplication(char* fileName)
   fp = fopen(fileName, "r");
 
 
-      fscanf(fp, "%d %d", &width, &height);
-			gWindowWidth = width;
-			gWindowHeight = height;
+  fscanf(fp, "%d %d", &width, &height);
+	gWindowWidth = width;
+	gWindowHeight = height;
 
-      fscanf(fp, "%d %d", &x, &y);
-			startX = x;
-			startY = y;
+  fscanf(fp, "%d %d", &x, &y);
+	startX = x;
+	startY = y;
 
-      fscanf(fp, "%d", &length);
+  fscanf(fp, "%d", &length);
 
-      fscanf(fp, "%f", &angle);
-			angleUnit = angle;
+  fscanf(fp, "%f", &angle);
+	angleUnit = angle;
 
-      fscanf(fp, "%s", pattern);
-			curveList = string2list(pattern, length, 1);
+  fscanf(fp, "%s", pattern);
+	getline(&line, &len, fp);
+	curveList = string2list(line, length, 1);
 
-			fscanf(fp,"%d", &numRules);
-			printf("%d\n",numRules);
-			//Can't read this line for some reason
-      //sscanf(line, "%s %s %f", searchPattern, replacementPattern, &scale);
-			//printf("%s",line);
-			//createSearchThreads(searchPattern, replacementPattern, length, scale);
-			for(int i = 0; i < numRules; i++)
-			{
-				fscanf(fp, "%s %s %f", searchPattern, replacementPattern, &scale);
-				sDataArr[i] = malloc(sizeof(struct searchData*));
-				sDataArr[i]->searchPattern = searchPattern;
-				sDataArr[i]->replacementPattern = replacementPattern;
-				sDataArr[i]->scale = scale;
-			}
+	fscanf(fp,"%d", &numRules);
+	printf("%d\n",numRules);
+	//Can't read this line for some reason
+  //sscanf(line, "%s %s %f", searchPattern, replacementPattern, &scale);
+	//printf("%s",line);
+	//createSearchThreads(searchPattern, replacementPattern, length, scale);
+	sDataArr = (struct searchData**) malloc (sizeof(struct searchData*)*numRules);
+	for(int i = 0; i < numRules; i++)
+	{
+		fscanf(fp, "%s %s %f", searchPattern, replacementPattern, &scale);
+		getline(&line, &len, fp);
+		searchPattern = malloc(sizeof(char)*len);
+		replacementPattern = malloc(sizeof(char)*len);
+		sscanf(line,"%s %s %f",searchPattern, replacementPattern, &scale);
+		printf("RP: %f\n",scale);
+		sDataArr[i] = malloc(sizeof(struct searchData*));
+		sDataArr[i]->searchPattern = searchPattern;
+		sDataArr[i]->replacementPattern = replacementPattern;
+		sDataArr[i]->scale = scale;
+	}
 	free(line);
   fclose(fp);
 }
@@ -395,7 +402,7 @@ void* search(void* sData)
 	Node* head = curveList;
 	Node* start;
 	Node* end;
-
+	printf("data-> %s",data->searchPattern);
 	int slen = strlen(searchPattern);
 	char listPattern[slen];
 	while(head != NULL)
