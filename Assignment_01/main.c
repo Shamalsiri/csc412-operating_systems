@@ -1,16 +1,16 @@
 /*--------------------------------------------------------------------------+
-|	Visualizer code for Prog 06, Fall 2018									|
-|																			|
-|	[Remove this header comment block and replace by your own]				|
-|																			|
-|	This is the only source file that you should need to modify (you may	|
-|	also want to add fields to the Node struct, in the Node.h header file).	|
-|	I have indicated in comments where you need to add code ***MUST DO***	|
-|	I have also indicated which part are better left untouched.				|
-|	Please note that depending on whether you want/need joinable threads, 	|
-|	you should enable or disable the USE_JOINABLE_THREADS setting below.	|
-|																			|
-|	Jean-Yves Hervé, 2018-11-29												|
+|	Visualizer code for Prog 06, Fall 2018									                  |
+|																			                                      |
+|	[Remove this header comment block and replace by your own]	       |
+|																			                                      |
+|	This is the only source file that you should need to modify (you may	    |
+|	also want to add fields to the Node struct, in the Node.h header file).	  |
+|	I have indicated in comments where you need to add code ***MUST DO***	    |
+|	I have also indicated which part are better left untouched.				        |
+|	Please note that depending on whether you want/need joinable threads,   	|
+|	you should enable or disable the USE_JOINABLE_THREADS setting below.	    |
+|																		 	                                      |
+|	Jean-Yves Hervé, 2018-11-29												                        |
 +--------------------------------------------------------------------------*/
 
 #include <stdio.h>
@@ -192,14 +192,12 @@ void initializeApplication(char* fileName)
 	int width, height, x, y, length;
   float angle;
 	float scale;
-  char* pattern = malloc(sizeof(char*));
   char* rule;
   char* searchPattern;
   char* replacementPattern;
 
-  char* line = NULL;
+  char* line = (char*)malloc(sizeof(char));
   size_t len = 0;
-  ssize_t read;
   FILE* fp;
   fp = fopen(fileName, "r");
 
@@ -217,7 +215,6 @@ void initializeApplication(char* fileName)
   fscanf(fp, "%f", &angle);
 	angleUnit = angle;
 
-  fscanf(fp, "%s", pattern);
 	getline(&line, &len, fp);
 	curveList = string2list(line, length, 1);
 
@@ -230,16 +227,13 @@ void initializeApplication(char* fileName)
 	sDataArr = (struct searchData**) malloc (sizeof(struct searchData*)*numRules);
 	for(int i = 0; i < numRules; i++)
 	{
-		fscanf(fp, "%s %s %f", searchPattern, replacementPattern, &scale);
 		getline(&line, &len, fp);
-		searchPattern = malloc(sizeof(char)*len);
-		replacementPattern = malloc(sizeof(char)*len);
-		sscanf(line,"%s %s %f",searchPattern, replacementPattern, &scale);
-		printf("RP: %f\n",scale);
 		sDataArr[i] = malloc(sizeof(struct searchData*));
-		sDataArr[i]->searchPattern = searchPattern;
-		sDataArr[i]->replacementPattern = replacementPattern;
+		sDataArr[i]->searchPattern = (char*) malloc(sizeof(char)*len);;
+		sDataArr[i]->replacementPattern = (char*) malloc(sizeof(char)*len);
+		sscanf(line,"%s %s %f",sDataArr[i]->searchPattern, sDataArr[i]->replacementPattern, &scale);
 		sDataArr[i]->scale = scale;
+		printf("RP: %f\n",scale);
 	}
 	free(line);
   fclose(fp);
@@ -280,6 +274,7 @@ Node* string2list(char* list, int length, float scale)
 		else if(list[i] == '+')
 		{
 			currentNode->letter = '+';
+			currentNode->length = length*scale;
 			currentNode->next = (Node*) calloc(1, sizeof(Node));
 			currentNode->next->prev = currentNode;
 			currentNode = currentNode->next;
@@ -287,6 +282,7 @@ Node* string2list(char* list, int length, float scale)
 		else if(list[i] == '-')
 		{
 			currentNode->letter = '-';
+			currentNode->length = length*scale;
 			currentNode->next = (Node*) calloc(1, sizeof(Node));
 			currentNode->next->prev = currentNode;
 			currentNode = currentNode->next;
@@ -351,6 +347,7 @@ void* replacement(void* rRules)
 		list->next = end;
 	}
 
+	pthread_mutex_unlock(&lock);
 	pthread_exit(0);
 }
 
@@ -435,7 +432,6 @@ void* search(void* sData)
 		}
 		head=head->next;
 	}
-	pthread_mutex_unlock(&lock);
 	pthread_exit(0);
 }
 //------------------------------------------------------------------------
